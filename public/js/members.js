@@ -4,11 +4,10 @@ $(document).ready(function() {
   const $memberName = $(".member-name");
   const $commentForm = $("#comment-form");
   const $commentInput = $("#comment-input");
-
-  const getUsername = function() {
+  const $logoutBtn = $("#logout-button");
     $.get("/api/user_data").then(function(data) {
       $memberName.text(data.email);
-    });
+
   };
 
   getUsername();
@@ -36,7 +35,7 @@ $(document).ready(function() {
               <div class="row">
                   <p class="text-white leading-none px-4 py-2">
                       <!-- placeholder for any comments added to a thread-->
-                      ${getUsername()}
+                      ${}
                   </p>
               </div>
               <div class="row">
@@ -53,4 +52,10 @@ $(document).ready(function() {
         console.log(err);
       });
   }
+
+  $logoutBtn.on("click", function() {
+    $.get("/logout").then(function() {
+      console.log("successfully logged out");
+    });
+  });
 });

@@ -58,6 +58,7 @@ module.exports = function(app) {
   // Gets all threads in the database and orders them by descending id. This is the list of threads that should populate on members.html page
   app.get("/threads", (req, res) => {
     db.Thread.findAll({
+      include: db.User,
       order: [["createdAt", "DESC"]]
     })
       .then(threads => {
@@ -71,22 +72,6 @@ module.exports = function(app) {
   app.get("/thread/:id", (req, res) => {
     db.Thread.findByPk(req.params.id).then(thread => {
       res.json(thread);
-    });
-  });
-  app.post("/api/new/message", (req, res) => {
-    const { body } = req.body;
-    db.Message.create({ body })
-      .then(newMessage => {
-        res.json(newMessage);
-      })
-      .catch(err => {
-        throw new Error(err);
-      });
-  });
-  // Get all messages in a thread.
-  app.get("/messages", (req, res) => {
-    db.Message.findAll({}).then(messages => {
-      res.json(messages);
     });
   });
 };
