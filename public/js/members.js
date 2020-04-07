@@ -5,9 +5,11 @@ $(document).ready(function() {
   const $commentForm = $("#comment-form");
   const $commentInput = $("#comment-input");
   const $logoutBtn = $("#logout-button");
+
+  const getUsername = function() {
     $.get("/api/user_data").then(function(data) {
       $memberName.text(data.email);
-
+    });
   };
 
   getUsername();
@@ -35,7 +37,7 @@ $(document).ready(function() {
               <div class="row">
                   <p class="text-white leading-none px-4 py-2">
                       <!-- placeholder for any comments added to a thread-->
-                      ${}
+                      ${getUsername()}
                   </p>
               </div>
               <div class="row">
