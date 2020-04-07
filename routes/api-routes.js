@@ -57,17 +57,33 @@ module.exports = function(app) {
   });
   // Gets all threads in the database and orders them by descending id. This is the list of threads that should populate on members.html page
   app.get("/threads", (req, res) => {
+    // db.Thread.findAll({
+    //   include: db.User,
+    //   order: [["createdAt", "DESC"]]
+    // })
+    //   .then(threads => {
+    //     res.json(threads);
+    //   })
+    //   .catch(err => {
+    //     throw new Error(err);
+    //   });
+
     db.Thread.findAll({
       include: db.User,
       order: [["createdAt", "DESC"]]
-    })
-      .then(threads => {
-        res.json(threads);
-      })
-      .catch(err => {
-        throw new Error(err);
-      });
+    }).then(dbThreads => {
+      console.log(dbThreads);
+      //   console.log(JSON.stringify(dbThreads[0].dataValues.body));
+      let hbsObject = {
+        threads: dbThreads,
+        comment: JSON.stringify(dbThreads[0].dataValues.body)
+      };
+
+      //   console.log(hbsObject);
+      res.render("members", hbsObject);
+    });
   });
+
   // Get a single thread by id from the database. This should occur when the user clicks a specific thread in the list of all threads on members.html page
   app.get("/thread/:id", (req, res) => {
     db.Thread.findByPk(req.params.id).then(thread => {
@@ -75,3 +91,12 @@ module.exports = function(app) {
     });
   });
 };
+
+// app.get("/thread/:UserId", (req, res) => {
+//     db.Thread.findOne({
+//         include: db.User,
+//         where {
+
+//         }
+//     })
+// })
