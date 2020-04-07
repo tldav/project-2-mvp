@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Welcome - plumm.it</title>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link
-			href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
-			rel="stylesheet"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-			crossorigin="anonymous"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Jua&family=Ultra&display=swap"
-			rel="stylesheet"
-		/>
-		<link rel="icon" href="img/plum.png" />
-		<link href="stylesheets/style.css" rel="stylesheet" />
-	</head>
-
-	<body>
-		<nav class="flex items-center justify-between flex-wrap p-0">
+<nav class="flex items-center justify-between flex-wrap p-0">
 			<div class="flex items-center text-white mr-6">
 				<img
 					src="img/plum.png"
@@ -84,6 +59,22 @@
 						</div>
 					</div>
 				</div>
+				<div class="row welcome discussion list-style">
+					<div class="col-12">
+						<div class="row">
+							<p class="text-white leading-none px-4 py-2">
+								<!-- placeholder for any comments added to a thread-->
+								Placeholder<span class="member-name"></span>
+							</p>
+						</div>
+						<div class="row">
+							<p class="text-white leading-none px-4 py-2">
+								Lorem ipsum dolor sit amet, consectetuer
+								adipiscing elit.
+							</p>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-6 mx-auto">
 						<form id="comment-form" class="form-margin-fix">
@@ -122,8 +113,3 @@
 				</div>
 			</div>
 		</div>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/members.js"></script>
-	</body>
-</html>
