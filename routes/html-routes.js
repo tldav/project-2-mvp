@@ -37,12 +37,27 @@ module.exports = function(app) {
       include: db.User,
       order: [["createdAt", "DESC"]]
     }).then(dbThreads => {
-      console.log(JSON.stringify(dbThreads[0].dataValues.body));
+      console.log(dbThreads);
+
+      const threads = dbThreads.map(thread => {
+        const { id, body, createdAt, updatedAt } = thread.dataValues;
+        const User = thread.User.dataValues;
+        return {
+          id,
+          body,
+          createdAt,
+          updatedAt,
+          User
+        };
+      });
+
+      console.log();
+      //   console.log(JSON.stringify(dbThreads[0].dataValues.body));
       let hbsObject = {
-        threads: dbThreads,
-        comment: JSON.stringify(dbThreads[0].dataValues.body)
+        threads
       };
 
+      //   console.log(hbsObject);
       res.render("members", hbsObject);
     });
   });

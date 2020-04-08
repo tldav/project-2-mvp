@@ -56,8 +56,9 @@ $(document).ready(function() {
   }
 
   $logoutBtn.on("click", function() {
-    $.get("/logout").then(function() {
-      console.log("successfully logged out");
-    });
+    location = "/logout";
+    //$.get("/logout").then(function() {
+    //  console.log("successfully logged out");
+    //});
   });
 });
