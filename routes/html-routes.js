@@ -31,8 +31,6 @@ module.exports = function(app) {
   // Here we've add our isAuthenticated middleware to this route.
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   app.get("/members", isAuthenticated, function(req, res) {
-    // res.sendFile(path.join(__dirname, "../public/members.html"));
-
     db.Thread.findAll({
       include: db.User,
       order: [["createdAt", "DESC"]]
@@ -41,7 +39,8 @@ module.exports = function(app) {
 
       const threads = dbThreads.map(thread => {
         const { id, body, createdAt, updatedAt } = thread.dataValues;
-        const User = thread.User.dataValues;
+        // const User = thread.User.dataValues;
+        const User = thread.User.email;
         return {
           id,
           body,
@@ -51,8 +50,7 @@ module.exports = function(app) {
         };
       });
 
-      console.log();
-      //   console.log(JSON.stringify(dbThreads[0].dataValues.body));
+      console.log(threads);
       let hbsObject = {
         threads
       };
@@ -60,8 +58,5 @@ module.exports = function(app) {
       //   console.log(hbsObject);
       res.render("members", hbsObject);
     });
-  });
-  app.get("/newthread", isAuthenticated, function(req, res) {
-    res.sendFile(path.join(__dirname, "../public/new-thread.html"));
   });
 };

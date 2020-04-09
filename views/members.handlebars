@@ -8,7 +8,7 @@
 </nav>
 
 <div class="container">
-    <div class="row welcome mb-5">
+    <div class="row welcome welcome-bg mb-5">
         <div class="col-12 col-md-8 text-center md:text-left d-flex justify-content-center justify-content-md-start">
             <h2 class="text-white leading-none px-4 py-2">
                 <!-- The span below displays the user that's logged in -->
@@ -23,14 +23,15 @@
     </div>
 
     <div class="comments">
+         {{#each threads}}
         <div class="row welcome discussion list-style">
             <div class="col-12">
-                {{#each threads}}
+               
 
                 <div class="row">
                     <p class="text-white leading-none px-4 py-2">
                         <!-- placeholder for any comments added to a thread-->
-                        <span class="member-name">{{User.email}}</span>
+                        <span class="">{{User}}</span>
                     </p>
                 </div>
                 <div class="row">
@@ -38,9 +39,10 @@
                         {{body}}
                     </p>
                 </div>
-                {{/each}}
+                
             </div>
         </div>
+        {{/each}}
         <div class="row">
             <div class="col-md-6 mx-auto">
                 <form id="comment-form" class="form-margin-fix">
@@ -56,7 +58,7 @@
                     </div>
                     <button type="submit" class="leading-none border px-4 py-2 mb-5 my-button my-button-bg"
                         id="reply-button">
-                        reply
+                        add plumm
                     </button>
                 </form>
             </div>

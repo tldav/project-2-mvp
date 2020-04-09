@@ -47,6 +47,20 @@ module.exports = function(app) {
     }
   });
 
+  // This route is used for testing only.
+  app.get("/threads", (req, res) => {
+    db.Thread.findAll({
+      include: db.User,
+      order: [["createdAt", "DESC"]]
+    })
+      .then(threads => {
+        res.json(threads);
+      })
+      .catch(err => {
+        throw new Error(err);
+      });
+  });
+
   // Creates a new Thread in the database. This should occur when the user enters information in the new-thread.html page.
   app.post("/api/new/thread", (req, res) => {
     db.Thread.create({ body: req.body.body, UserId: req.user.id }).then(
@@ -55,61 +69,4 @@ module.exports = function(app) {
       }
     );
   });
-  // Gets all threads in the database and orders them by descending id. This is the list of threads that should populate on members.html page
-  app.get("/threads", (req, res) => {
-    // db.Thread.findAll({
-    //   include: db.User,
-    //   order: [["createdAt", "DESC"]]
-    // })
-    //   .then(threads => {
-    //     res.json(threads);
-    //   })
-    //   .catch(err => {
-    //     throw new Error(err);
-    //   });
-
-    db.Thread.findAll({
-      include: db.User,
-      order: [["createdAt", "DESC"]]
-    }).then(dbThreads => {
-      console.log(dbThreads);
-
-      const threads = dbThreads.map(thread => {
-        const { id, body, createdAt, updatedAt } = thread.dataValues;
-        const User = thread.User.dataValues;
-        return {
-          id,
-          body,
-          createdAt,
-          updatedAt,
-          User
-        };
-      });
-
-      console.log();
-      //   console.log(JSON.stringify(dbThreads[0].dataValues.body));
-      let hbsObject = {
-        threads
-      };
-
-      //   console.log(hbsObject);
-      res.render("members", hbsObject);
-    });
-  });
-
-  // Get a single thread by id from the database. This should occur when the user clicks a specific thread in the list of all threads on members.html page
-  app.get("/thread/:id", (req, res) => {
-    db.Thread.findByPk(req.params.id).then(thread => {
-      res.json(thread);
-    });
-  });
 };
-
-// app.get("/thread/:UserId", (req, res) => {
-//     db.Thread.findOne({
-//         include: db.User,
-//         where {
-
-//         }
-//     })
-// })

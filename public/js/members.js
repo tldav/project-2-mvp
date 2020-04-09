@@ -5,14 +5,11 @@ $(document).ready(function() {
   const $commentForm = $("#comment-form");
   const $commentInput = $("#comment-input");
   const $logoutBtn = $("#logout-button");
+  const $userEmail = $("#user-email");
 
-  const getUsername = function() {
-    $.get("/api/user_data").then(function(data) {
-      $memberName.text(data.email);
-    });
-  };
-
-  getUsername();
+  $.get("/api/user_data").then(function(data) {
+    $memberName.text(data.email);
+  });
 
   $commentForm.on("submit", function(event) {
     event.preventDefault();
@@ -28,16 +25,23 @@ $(document).ready(function() {
   function createComment(body) {
     $.post("/api/new/thread", {
       body: body
-    })
-      .then(function() {
-        console.log("Successfully added a thread to the db");
-        getUsername();
-        const $commentTemplate = $(`<div class="row welcome discussion list-style">
+    }).then(function() {
+      console.log("Successfully added a thread to the db");
+
+      location.reload();
+
+      // I tried to comment the rest of this function out but something wasn't working when I did.
+      $.get("/api/user_data")
+        .then(function(data) {
+          const userName = JSON.stringify($userEmail.text(data.email));
+          console.log(userName);
+
+          const $commentTemplate = $(`<div class="row welcome discussion list-style">
           <div class="col-12">
               <div class="row">
-                  <p class="text-white leading-none px-4 py-2">
+                  <p id="user-email" class="text-white leading-none px-4 py-2">
                       <!-- placeholder for any comments added to a thread-->
-                      ${getUsername()}
+                      ${userName}
                   </p>
               </div>
               <div class="row">
@@ -48,11 +52,12 @@ $(document).ready(function() {
           </div>
       </div>`);
 
-        $($commentTemplate).prependTo(".comments");
-      })
-      .catch(err => {
-        console.log(err);
-      });
+          $($commentTemplate).prependTo(".comments");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
   }
 
   $logoutBtn.on("click", function() {
